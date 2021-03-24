@@ -23,7 +23,7 @@ import timeit
 
 WH = 600
 WW = 600
-FLAKE_COUNT = 99
+FLAKE_COUNT = 10000
 
 
 class Snow:

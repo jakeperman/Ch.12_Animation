@@ -30,6 +30,8 @@ class Brick(Scene):
         # self.size = SCALE*.75
         self.rad = self.size/2
         rad = self.rad
+        self.center_y = y
+        self.center_x = x
         self.hi = 7
 
     def create(self):
@@ -62,13 +64,45 @@ class Brick(Scene):
             block.append(ln)
 
         for i in range(1, 7):
+            line_len = (14/75) * self.size
+            line_y_start = self.center_y + self.rad
             coordx1 = left+(left_r*self.size)
-            coordy1 = top - (line_dist_r*self.size)
-            coordy2 = coordy1 - (line_dist_r*self.size)*i
-            lx = arcade.create_line(left+(left_r*self.size), top - (line_dist_r*self.size)*i, left+(left_r*self.size),
-                              top - (line_dist_r*self.size) - (line_dist_r*self.size)*i, (0, 0, 0), width)
-            # lx = arcade.create_line(300, 400, 300, 300, (0,0,0), width)
-            block.append(lx)
+            end_y = line_y_start - line_len
+            # lx = arcade.create_line(left+(left_r*self.size), top - (line_dist_r*self.size)*i, left+(left_r*self.size),
+            #                   top - (line_dist_r*self.size) - (line_dist_r*self.size)*i, (0, 0, 0), width)
+            # lx = arcade.create_line(coordx1, line_y_start, coordx1, end_y, (0,0,0), width)
+            col = (0,0,0)
+            coordx1 = (self.center_x - self.rad)
+            for z in range(0, 4):
+                # col = random.choices((random.randint(0,255), random.randint(0,255), random.randint(0,255)), k=3)
+                c = (line_len * z) + width*(.95) * z
+                if z in [0, 2]:
+                    print("uh")
+                    x_offset = ((36/75) * self.size)
+                    coordx1 = self.center_x - self.rad
+                    lx = arcade.create_line(coordx1 + x_offset, line_y_start - c, coordx1 + x_offset, end_y - c, col,
+                                            width)
+                    block.append(lx)
+                    lx = arcade.create_line(coordx1 + x_offset + x_offset, line_y_start - c, coordx1 + x_offset + x_offset, end_y - c, col,
+                                            width)
+                    block.append(lx)
+                else:
+                    x_offset = (36/75) * self.size
+                    lx = arcade.create_line(coordx1 + x_offset, line_y_start - c, coordx1 + x_offset, end_y - c, col,
+                                            width)
+                    block.append(lx)
+                    lx = arcade.create_line(coordx1 + x_offset + x_offset, line_y_start - c,
+                                            coordx1 + x_offset + x_offset, end_y - c, col,
+                                            width)
+                    block.append(lx)
+                print("c:",c)
+
+
+                # for l in range(1,2):
+                #     x_offset = (39/75)*self.size*l
+                #     lx = arcade.create_line(coordx1 + x_offset, line_y_start - c, coordx1 + x_offset, end_y - c, col, width)
+                #     block.append(lx)
+
         # for num in range()
 
 
@@ -138,15 +172,27 @@ class Prgm(arcade.Window):
 
         # start render, drawing code goes under here
         arcade.start_render()
-        # brick = Brick(SW/2, SH/2).create()
-        # brick.draw()
-        cloud = open("coordinates.txt", "r")
-        x = tuple([s for s in cloud.readlines()])
-        lst = []
-        lst.append([i for i in cloud.readlines()])
-        print(lst)
-        points = ((10, 20), (13, 25), (26,30), (57, 80))
-        arcade.create_line_strip(points, (0,0,0), 5).draw()
+        brick = Brick(SW/2, SH/2).create()
+        brick.draw()
+        pt_list = []
+        with open('coordinates.txt', 'r') as coords:
+            points = coords.readlines()
+        print(points)
+        new_points = [pt_list.append(point.strip("\n")) for point in points]
+        n_lst = []
+        for each in pt_list:
+            nums = each.split(',')
+            for i in range(len(nums)):
+                p = tuple([int(x) for x in nums])
+                # print(p)
+            n_lst.append(p)
+
+        print(n_lst)
+
+        # print(pt_list)
+        points = tuple(n_lst)
+        arcade.create_line_strip(points, (0, 0, 0), 5).draw()
+        arcade.create_polygon(points, (0,0,0)).draw()
 
 
 
