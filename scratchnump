@@ -1,0 +1,20 @@
+import numpy as np
+def line(x_s, y_s, x_e, y_e):
+    line_x = np.arange(x_s, x_e+1)
+    line_y = np.arange(y_s, y_e+1)
+    ln = np.column_stack(np.broadcast_arrays(line_x, line_y))
+    return ln
+
+
+line1 = line(10, 10, 10, 20)
+print(line1)
+print()
+line2 = line(0, 20, 11, 20)
+print(line2)
+print()
+print(np.intersect1d(line1, line2).reshape())
+
+
+# collide = np.intersect1d(line1, line2)
+# print(collide)
+
