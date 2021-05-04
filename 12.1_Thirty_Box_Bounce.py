@@ -147,22 +147,7 @@ class MyGame(arcade.Window):
             elif box.edge_b <= self.rail_bottom.edge_y:
                 box.dy *= -1
                 box.color = self.rail_bottom.color
-
-            # for each in self.boxes:
-            #     if box.edge_r <= each.edge_l <= box.edge_r +3:
-            #         each.dx *= -1
-            #         box.dx *= -1
-
-
             box.update_box()
-            # if self.boxes[i].edge_r >= self.rail_right.edge_x:
-            #     print("yep")
-            #     self.boxes[i].dy = self.boxes[i].dy * -1
-            #     print(self.boxes[i].dy)
-
-
-
-
 
 def main():
     my_window = MyGame(sw, sh, "(Insert Title)")
